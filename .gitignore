@@ -1,0 +1,5 @@
+.env
+Project Overview.pdf
+venv
+__pycache__
+migrations/
