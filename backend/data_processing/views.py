@@ -1,4 +1,3 @@
-# data_processing/views.py
 import os
 
 import numpy as np
