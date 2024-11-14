@@ -3,6 +3,7 @@ import os
 
 import numpy as np
 import pandas as pd
+from rest_framework import status
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -56,6 +57,15 @@ class FileUploadView(APIView):
             data_types = {col: str(dtype) for col, dtype in processed_df.dtypes.items()}
             preview_data = processed_df.head(10).to_dict(orient="records")
             return Response({"data_types": data_types, "data": preview_data})
-
+        except ValueError as e:
+            # Handle value errors related to JSON serialization issues
+            return Response(
+                {"error": f"Value error in file processing: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         except Exception as e:
-            return Response({"error": f"Error processing file: {str(e)}"}, status=500)
+            # General error handling
+            return Response(
+                {"error": f"Error processing file: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )

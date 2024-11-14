@@ -36,6 +36,11 @@ const FileUploadPage = () => {
   const handleUpload = async (e) => {
     e.preventDefault();
 
+    // Clear previous messages
+    setErrorMessage("");
+    setSuccessMessage("");
+    setOpenSnackbar(false);
+
     if (!file) {
       setErrorMessage("No file selected!");
       setOpenSnackbar(true);
@@ -62,7 +67,12 @@ const FileUploadPage = () => {
       setSuccessMessage("File uploaded and processed successfully!");
       setOpenSnackbar(true);
     } catch (error) {
-      setErrorMessage("Error uploading file.");
+      // Capture the specific error message from the backend response
+      const backendErrorMessage =
+        error.response && error.response.data && error.response.data.error
+          ? error.response.data.error
+          : "Error uploading file.";
+      setErrorMessage(backendErrorMessage);
       setOpenSnackbar(true);
     } finally {
       setLoading(false);

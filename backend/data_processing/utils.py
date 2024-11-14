@@ -1,4 +1,3 @@
-# data_processing/utils.py
 import pandas as pd
 
 
@@ -21,6 +20,11 @@ def infer_and_convert_data_types(df):
             df[col] = df_numeric
             df[col] = pd.to_numeric(df[col], downcast="integer", errors="ignore")
             df[col] = pd.to_numeric(df[col], downcast="float", errors="ignore")
+            continue
+
+        # Check for complex numbers
+        if pd.api.types.is_complex_dtype(df[col]):
+            df[col] = df[col].astype("complex")
             continue
 
         # Attempt to convert to datetime with common date formats
