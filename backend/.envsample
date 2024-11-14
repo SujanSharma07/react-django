@@ -1,0 +1,3 @@
+CORS_ALLOWED_ORIGINS=http://localhost:3000
+SECRET_KEY=i1@%nxc6v3@^k+gma*_$!j!iw-5ql(()tclgasm4o7e
+DEBUG=True
