@@ -77,5 +77,5 @@ def load_and_process_file(file_path):
     return df
 
 
-# Test with an example file path
+# Test with an example file
 df = load_and_process_file("sample_data.csv")
