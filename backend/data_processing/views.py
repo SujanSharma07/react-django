@@ -1,6 +1,7 @@
 # data_processing/views.py
 import os
 
+import numpy as np
 import pandas as pd
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
@@ -32,10 +33,26 @@ class FileUploadView(APIView):
                 df = pd.read_csv(file)
             else:
                 df = pd.read_excel(file)
+            # Replace inf and -inf with NaN, and then replace NaN with appropriate placeholders
+            df.replace([np.inf, -np.inf], np.nan, inplace=True)
 
-            # Process the data (you can add your logic for data type inference here)
+            # Fill NaN values based on each column's data type
+            for col in df.columns:
+                if pd.api.types.is_numeric_dtype(df[col]):
+                    df[col].fillna(
+                        0, inplace=True
+                    )  # replace NaN with 0 for numeric columns
+                elif pd.api.types.is_object_dtype(df[col]):
+                    df[col].fillna(
+                        "", inplace=True
+                    )  # replace NaN with empty string for text columns
+                else:
+                    df[col].fillna(
+                        "N/A", inplace=True
+                    )  # replace NaN with "N/A" for other types
+
+            # Process the data
             processed_df = infer_and_convert_data_types(df)
-
             data_types = {col: str(dtype) for col, dtype in processed_df.dtypes.items()}
             preview_data = processed_df.head(10).to_dict(orient="records")
             return Response({"data_types": data_types, "data": preview_data})
