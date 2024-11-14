@@ -18,7 +18,7 @@ const Home = () => {
           Welcome to the React File Upload App
         </Typography>
         <Typography variant="h5" paragraph>
-          This application allows you to upload files, process them, and view their contents in a neat, organized way.
+          This application allows you to upload files, process them, and view their datatype and contents in a neat, organized way.
         </Typography>
         
         <Grid container justifyContent="center">
