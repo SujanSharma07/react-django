@@ -35,11 +35,16 @@ pip install -r requirements.txt
 - ``` SECRET_KEY ``` : Django secret key (You can generate one using ``` django.core.management.utils.get_random_secret_key()) ``` .
 - ``` CORS_ALLOWED_ORIGINS ```: List of allowed origins for CORS (e.g., http://localhost:3000 for React frontend).
 - ``` DEBUG ```: Set to ``` True ``` for development.
-4. Run the Django server:
+4. Make Database schemas and Tables
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+5. Run the Django server:
 ``` 
 python manage.py runserver
 ```
-5. The API will be accessible at http://localhost:8000/ for file uploads.
+6. The API will be accessible at http://localhost:8000/ for file uploads.
 
 ## Setting Up the Frontend (React)
 1. Clone the repository or navigate to the frontend folder.
